@@ -1,5 +1,4 @@
-import Menu from '@/components/menu'
-// import Menu from '../components/menu'
+import Menu from '@/components/mainMenu'
 
 // actName: 详情页添加
 
@@ -9,7 +8,6 @@ const routes = [
         name: 'login',
         meta: {
             title: '登录',
-            icon: 'ios-contact',
             hideInMenu: true
         },
         component: () => import('@/views/login')
@@ -19,7 +17,6 @@ const routes = [
         name: 'register',
         meta: {
             title: '注册',
-            icon: 'ios-contact',
             hideInMenu: true
         },
         component: () => import('@/views/register')
@@ -39,7 +36,6 @@ const routes = [
             name: 'home',
             meta: {
                 title: '个人主页',
-                icon: 'ios-contact',
                 hideInMenu: false
             },
             component: () => import('@/views/home')
@@ -50,7 +46,7 @@ const routes = [
         name: 'activity',
         meta: {
             title: '社区活动',
-            icon: 'ios-contact',
+            icon: 'md-home',
             hideInMenu: false
         },
         component: Menu,
@@ -60,7 +56,7 @@ const routes = [
                 name: 'indoor',
                 meta: {
                     title: '室内活动',
-                    icon: 'ios-contact',
+                    icon: 'ios-list-box',
                     hideInMenu: false
                 },
                 component: () => import('@/views/activity/indoor')
@@ -70,7 +66,7 @@ const routes = [
                 name: 'outdoor',
                 meta: {
                     title: '室外活动',
-                    icon: 'ios-contact',
+                    icon: 'ios-list-box',
                     hideInMenu: false
                 },
                 component: () => import('@/views/activity/outdoor')
@@ -82,7 +78,7 @@ const routes = [
         name: 'parking',
         meta: {
             title: '停车位管理',
-            icon: 'ios-contact',
+            icon: 'md-home',
             hideInMenu: false
         },
         component: Menu,
@@ -92,7 +88,7 @@ const routes = [
                 name: 'partition',
                 meta: {
                     title: '分区',
-                    icon: 'ios-contact',
+                    icon: 'ios-list-box',
                     hideInMenu: false
                 },
                 component: () => import('@/views/parking/partition')
@@ -102,7 +98,7 @@ const routes = [
                 name: 'monitor',
                 meta: {
                     title: '停车场监控',
-                    icon: 'ios-contact',
+                    icon: 'ios-list-box',
                     hideInMenu: false
                 },
                 component: () => import('@/views/parking/monitor')
@@ -112,7 +108,6 @@ const routes = [
                 name: 'monitorDetail',
                 meta: {
                     title: '监控详情',
-                    icon: 'ios-contact',
                     hideInMenu: true,
                     actName: 'monitor'
                 },

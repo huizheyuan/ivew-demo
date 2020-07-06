@@ -6,6 +6,7 @@
                 <Button type="error" size="small" @click="deleteItem(row, index)">删除</Button>
             </template>
         </Table>
+        <Page class="tablePage" :total="1000" show-total show-elevator show-sizer />
         <Modal v-model="editModel" title='编辑'>
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
                 <FormItem label="模块" prop="module">
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import expandRow from '@/components/expandRow';
+import expandRow from './component/expandRow';
 export default {
     name: 'indoor',
     components: { expandRow },
@@ -174,3 +175,10 @@ export default {
     }
 }
 </script>
+
+<style lang="less" scoped>
+.tablePage {
+    float: right;
+    margin: 15px 0;
+}
+</style>

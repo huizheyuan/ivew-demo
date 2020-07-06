@@ -1,40 +1,59 @@
 <template>
-<Layout>
-    <Sider hide-trigger>
-        <div class="title">物业管理系统</div>
+<Layout style="height: 100%" class="main">
+    <Sider 
+        ref="side" 
+        collapsible 
+        :collapsed-width="64" 
+        v-model="isCollapsed" 
+        hide-trigger
+        class="left-sider"
+        :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'hidden'}"
+    >
+        <div class="logo-con">
+          <img v-show="!isCollapsed" :src="maxLogo" key="max-logo" />
+          <img v-show="isCollapsed" :src="minLogo" key="min-logo" />
+        </div>
         <Menu 
+            v-show="!isCollapsed" 
             :theme="theme" 
             :active-name="activeName"
             :open-names="openedNames"
             accordion 
             ref="menu"
-            style="height: 100vh; width: 200px" 
+            width="auto"
+            :class="menuitemClasses"
             @on-select="selectMenu"
         >
             <div v-for="menu in menuList" :key="menu.name">
                 <div v-if="menu.children && menu.children.length===1">
                     <MenuItem :name="menu.children[0].name">
-                        <div>{{menu.children[0].meta.title}}</div>
+                        <Icon :type="menu.meta.icon" />
+                        <span>{{menu.children[0].meta.title}}</span>
                     </MenuItem>
                 </div>
                 <div v-else-if="menu.children">
                     <Submenu v-if="!menu.meta.hideInMenu" :name="menu.name">
                         <template slot="title">
-                            <Icon type="ios-paper" />
-                            {{menu.meta.title}}
+                            <Icon :type="menu.meta.icon" />
+                            <span>{{menu.meta.title}}</span>
                         </template>
                         <div v-for="menuchild in menu.children" :key="menuchild.name">
                             <MenuItem v-if="!menuchild.meta.hideInMenu" :name="menuchild.name">
-                                <div>{{menuchild.meta.title}}</div>
+                                <Icon :type="menuchild.meta.icon" />
+                                <span>{{menuchild.meta.title}}</span>
                             </MenuItem>
                         </div>
                     </Submenu>
                 </div>
             </div>
         </Menu>
+        <div v-show="isCollapsed">
+            盛大开放花瓣
+        </div>
     </Sider>
-    <Layout>
-        <Header>
+    <Layout :style="{marginLeft: layoutLeft}">
+        <Header class="layout-header-bar"  :style="{padding: 0, position: 'fixed', zIndex: 9999}">
+            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
             <Dropdown @on-click="handleDropdown" class="userInfo fr pointer">
                 显示用户名
                 <DropdownMenu slot="list">
@@ -46,8 +65,8 @@
                 </DropdownMenu>
             </Dropdown>
         </Header>
-        <Content>
-            <div class="tagList">
+        <Content class="main-content-con" :style="{margin: '64px 0 20px'}">
+            <div :style="{margin: '16px 0', cursor: 'pointer'}">
                 <Tag 
                     v-for="tag in tagList" 
                     :key="tag.id" type="dot" 
@@ -58,7 +77,9 @@
                     @on-close="handleCloseTag(tag)"
                 >{{tag.meta.title}}</Tag>
             </div>
-            <div class="content"><router-view/></div>
+            <Card style="margin: 0 20px">
+                <div class="mainContent" style="height: 80vh; overflow-y: scroll;"><router-view/></div>
+            </Card>
         </Content>
     </Layout>
 </Layout>
@@ -69,15 +90,36 @@ import menu from '../../router'
 import { setToken, findIndexById, getNextRoute, routeEqual, getUnion, getNewTagList, findRouteByName } from '@/libs/utils'
 import { mapMutations } from 'vuex'
 import { Time } from 'view-design'
+import minLogo from '@/assets/image/min-logo.png'
+import maxLogo from '@/assets/image/max-logo.png'
 export default {
+    name: 'mainMenu',
     computed: {
         tagList () {
             return this.$store.state.app.tagNavList
         },
+        rotateIcon () {
+            return [
+                'menu-icon',
+                this.isCollapsed ? 'rotate-icon' : ''
+            ];
+        },
+        menuitemClasses () {
+            return [
+                'menu-item',
+                this.isCollapsed ? 'collapsed-menu' : ''
+            ]
+        },
+        layoutLeft () {
+            return this.isCollapsed ? '64px' : '200px'
+        }
     },
     data () {
         return {
             theme: 'dark',
+            minLogo,
+            maxLogo,
+            isCollapsed: false,
             activeName: this.$route.meta.actName ? this.$route.meta.actName : this.$route.name,
             openedNames: [],
             dropdownItem: [
@@ -120,6 +162,9 @@ export default {
             'setTagNavList',
             'addTag'
         ]),
+        collapsedSider () {
+            this.$refs.side.toggleCollapse();
+        },
         handleDropdown(name) {
             switch (name) {
                 case 1:
@@ -176,32 +221,77 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.title {
-    height: 64px;
-    line-height: 64px;
-    color: #b5c1cf;
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-}
-.userInfo {
-    color: #b5c1cf;
-    padding: 0 10px;
-    &:hover {
-        background: #363e4f;
+.main {
+    .mainContent {
+        overflow-y: scroll;
+        &::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 6px;
+            cursor: pointer;
+        }
+        &::-webkit-scrollbar-thumb {/*滚动条里的小方块*/
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: #dcdee2;
+        }
     }
-}
-.tagList {
-    margin: 10px 0;
-    &>div{
-        cursor: pointer;
+    .logo-con {
+        height: 64px;
+        padding: 10px;
+        img{
+            height: 44px;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
     }
-}
-.content {
-    margin: 0 18px;
-    padding: 8px;
-    min-height: 80vh;
-    border-radius: 5px;
-    box-shadow: 2px 1px 6px #cccccc;
+    
+    .left-sider{
+        .ivu-layout-sider-children{
+            overflow-y: scroll;
+            margin-right: -18px;
+            height: 100%;
+        }
+    }
+    .layout-header-bar{
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        padding: 0 20px;
+        width: 100%;
+    }
+    .main-content-con {
+        height: ~"calc(100% - 60px)";
+        overflow: hidden;
+    }
+    .menu-icon{
+        transition: all .3s;
+    }
+    .rotate-icon{
+        transform: rotate(-90deg);
+    }
+    .menu-item span{
+        display: inline-block;
+        overflow: hidden;
+        width: 80%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
+        transition: width .2s ease .2s;
+    }
+    .menu-item i{
+        transform: translateX(0px);
+        transition: font-size .2s ease, transform .2s ease;
+        vertical-align: middle;
+        font-size: 16px;
+    }
+    .collapsed-menu span{
+        width: 0px;
+        transition: width .2s ease;
+    }
+    .collapsed-menu i{
+        transform: translateX(5px);
+        transition: font-size .2s ease .2s, transform .2s ease .2s;
+        vertical-align: middle;
+        font-size: 22px;
+    }
 }
 </style>
