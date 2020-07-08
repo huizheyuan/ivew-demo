@@ -46,7 +46,7 @@ const routes = [
         name: 'activity',
         meta: {
             title: '社区活动',
-            icon: 'md-home',
+            icon: 'ios-paper',
             hideInMenu: false
         },
         component: Menu,
@@ -56,7 +56,7 @@ const routes = [
                 name: 'indoor',
                 meta: {
                     title: '室内活动',
-                    icon: 'ios-list-box',
+                    icon: 'ios-create',
                     hideInMenu: false
                 },
                 component: () => import('@/views/activity/indoor')
@@ -66,7 +66,7 @@ const routes = [
                 name: 'outdoor',
                 meta: {
                     title: '室外活动',
-                    icon: 'ios-list-box',
+                    icon: 'ios-create',
                     hideInMenu: false
                 },
                 component: () => import('@/views/activity/outdoor')
@@ -78,7 +78,7 @@ const routes = [
         name: 'parking',
         meta: {
             title: '停车位管理',
-            icon: 'md-home',
+            icon: 'ios-paper',
             hideInMenu: false
         },
         component: Menu,
@@ -88,7 +88,7 @@ const routes = [
                 name: 'partition',
                 meta: {
                     title: '分区',
-                    icon: 'ios-list-box',
+                    icon: 'ios-create',
                     hideInMenu: false
                 },
                 component: () => import('@/views/parking/partition')
@@ -98,7 +98,7 @@ const routes = [
                 name: 'monitor',
                 meta: {
                     title: '停车场监控',
-                    icon: 'ios-list-box',
+                    icon: 'ios-create',
                     hideInMenu: false
                 },
                 component: () => import('@/views/parking/monitor')

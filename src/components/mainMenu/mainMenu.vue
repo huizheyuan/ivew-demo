@@ -18,9 +18,9 @@
             :theme="theme" 
             :active-name="activeName"
             :open-names="openedNames"
+            width="auto"
             accordion 
             ref="menu"
-            width="auto"
             :class="menuitemClasses"
             @on-select="selectMenu"
         >
@@ -87,9 +87,8 @@
 
 <script>
 import menu from '../../router'
-import { setToken, findIndexById, getNextRoute, routeEqual, getUnion, getNewTagList, findRouteByName } from '@/libs/utils'
+import { setToken, getNextRoute, routeEqual } from '@/libs/utils'
 import { mapMutations } from 'vuex'
-import { Time } from 'view-design'
 import minLogo from '@/assets/image/min-logo.png'
 import maxLogo from '@/assets/image/max-logo.png'
 export default {

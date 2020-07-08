@@ -1,12 +1,22 @@
 <template>
     <div>
-        <Table border :columns="columns" :data="data">
+        <Table border :height="tableHeight" :columns="columns" :data="data">
             <template slot-scope="{ row, index }" slot="action">
                 <Button type="primary" size="small" class="btn" @click="editItem(row)">编辑</Button>
                 <Button type="error" size="small" @click="deleteItem(row, index)">删除</Button>
             </template>
         </Table>
-        <Page class="tablePage" :total="1000" show-total show-elevator show-sizer />
+        <div class="footerBox">
+            <Page 
+                :total="searchHeader.totalPage" 
+                :current="searchHeader.currentPage" 
+                @on-change="(currentPage)=>{searchHeader.currentPage=currentPage; searchData()}"
+                @on-page-size-change="(totalPage)=>{searchHeader.totalPage=totalPage; searchData()}"
+                class-name="pages" 
+                show-total 
+                show-sizer 
+            />
+        </div>
         <Modal v-model="editModel" title='编辑'>
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
                 <FormItem label="模块" prop="module">
@@ -33,12 +43,23 @@
 </template>
 
 <script>
-import expandRow from './component/expandRow';
+import { setFixeMixin } from '@/libs/setFixedHeight' // 固定高度
+import expandRow from '@/components/expandRow'
 export default {
     name: 'indoor',
-    components: { expandRow },
+    mixins: [setFixeMixin],
+    component: { expandRow },
+    computed: {
+        tableHeight() {
+            return this.HEIGHT
+        }
+    },
     data () {
         return {
+            searchHeader: {
+                currentPage: 1,
+                totalPage: 100,
+            },
             columns: [
                 {
                     type: 'expand',
@@ -75,18 +96,8 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '排序',
-                    type: 'index',
-                    align: 'center'
-                },
-                {
                     title: '创建时间',
                     key: 'createTime',
-                    align: 'center'
-                },
-                {
-                    title: '备注',
-                    key: 'remarks',
                     align: 'center'
                 }
             ],
@@ -96,7 +107,6 @@ export default {
                     module: '账户管理',
                     moduleNum: 'userAccessInfo',
                     createTime: '1991-05-14',
-                    remarks: '',
                     subData: [
                         {
                             cid: 11,
@@ -119,7 +129,6 @@ export default {
                     module: '部门管理',
                     moduleNum: 'departmentInfo',
                     createTime: '1991-05-14',
-                    remarks: '',
                     subData: [
                         {
                             cid: 11,
@@ -154,12 +163,18 @@ export default {
             }
         }
     },
+    mounted() {
+        this.searchData()
+    },
     methods: {
+        searchData() {
+            console.log(this.searchHeader)
+        },
         editItem(row) {
             this.editModel = true
             this.formValidate = row
         },
-        editSubmit(name) {
+        editSubmit() {
             console.log(this.formValidate)
             this.editModel = false
         },
