@@ -44,7 +44,7 @@
 
 <script>
 import { setFixeMixin } from '@/libs/setFixedHeight' // 固定高度
-import expandRow from '@/components/expandRow'
+import expandRow from './component/expandRow'
 export default {
     name: 'indoor',
     mixins: [setFixeMixin],
