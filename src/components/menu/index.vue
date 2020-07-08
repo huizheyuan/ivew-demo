@@ -1,31 +1,35 @@
 <template>
 <Layout>
-    <Sider hide-trigger>
+    <Sider hide-trigger style="height: 100vh">
         <div class="title">物业管理系统</div>
         <Menu 
             :theme="theme" 
             :active-name="activeName"
             :open-names="openedNames"
+            width="auto"
             accordion 
             ref="menu"
-            style="height: 100vh; width: 200px" 
             @on-select="selectMenu"
         >
             <div v-for="menu in menuList" :key="menu.name">
                 <div v-if="menu.children && menu.children.length===1">
                     <MenuItem :name="menu.children[0].name">
-                        <div>{{menu.children[0].meta.title}}</div>
+                        <Icon :type="menu.meta.icon" />
+                        {{menu.children[0].meta.title}}
                     </MenuItem>
                 </div>
                 <div v-else-if="menu.children">
                     <Submenu v-if="!menu.meta.hideInMenu" :name="menu.name">
                         <template slot="title">
-                            <Icon type="ios-paper" />
+                            <Icon :type="menu.meta.icon" />
                             {{menu.meta.title}}
                         </template>
                         <div v-for="menuchild in menu.children" :key="menuchild.name">
                             <MenuItem v-if="!menuchild.meta.hideInMenu" :name="menuchild.name">
-                                <div>{{menuchild.meta.title}}</div>
+                                <div>
+                                    <Icon :type="menuchild.meta.icon" />
+                                    {{menuchild.meta.title}}
+                                    </div>
                             </MenuItem>
                         </div>
                     </Submenu>
@@ -66,9 +70,8 @@
 
 <script>
 import menu from '../../router'
-import { setToken, findIndexById, getNextRoute, routeEqual, getUnion, getNewTagList, findRouteByName } from '@/libs/utils'
+import { setToken, getNextRoute, routeEqual } from '@/libs/utils'
 import { mapMutations } from 'vuex'
-import { Time } from 'view-design'
 export default {
     computed: {
         tagList () {
@@ -199,9 +202,8 @@ export default {
 }
 .content {
     margin: 0 18px;
-    padding: 8px;
-    min-height: 80vh;
+    padding: 20px;
     border-radius: 5px;
-    box-shadow: 2px 1px 6px #cccccc;
+    background-color: #ffffff;
 }
 </style>
