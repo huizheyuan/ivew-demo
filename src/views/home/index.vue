@@ -36,24 +36,11 @@ export default {
         return {
             tabsType: 'todo',
             todoList: [
-                {
-                    id: 10001,
-                    title: '检查消防栓',
-                    desc: '1栋到5栋'
-                },
-                {
-                    id: 10002,
-                    title: '检查垃圾分类',
-                    desc: '查看监控……'
-                }
+                { id: 10001, title: '检查消防栓', desc: '1栋到5栋' },
+                { id: 10002, title: '检查垃圾分类', desc: '查看监控……' }
             ],
             downList: [
-                {
-                    id: 20001,
-                    title: '检查门禁',
-                    time: '2020-6-29',
-                    desc: ''
-                }
+                { id: 20001, title: '检查门禁', time: '2020-6-29', desc: '' }
             ]
         }
     },
@@ -72,12 +59,7 @@ export default {
         },
         btnHandler(type, name, detail, index) {
             const title = type==='detail' ? '详情' : '提示'
-            const content = `
-                <p>
-                    您确定要<span class='bold'>${name}</span>
-                    <span class='orange'>${detail.title}</span> 吗？
-                </p>
-            `
+            const content = `<p>您确定要<span class='bold'>${name}</span><span class='orange'>${detail.title}</span> 吗？</p>`
             switch (type) {
                 case 'detail':
                     this.$Modal.info({
@@ -106,7 +88,8 @@ export default {
                     });
                     break;
             }
-        }
+        },
+        getCountdown() {}
     }
 }
 </script>

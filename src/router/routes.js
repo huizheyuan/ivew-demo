@@ -116,6 +116,38 @@ const routes = [
         ]
     },
     {
+        path: '/chargeManagement',
+        name: 'chargeManagement',
+        meta: {
+            title: '收费管理',
+            icon: 'ios-paper',
+            hideInMenu: false
+        },
+        component: Menu,
+        children: [
+            {
+                path: '/chargeManagement/chargeItems',
+                name: 'chargeItems',
+                meta: {
+                    title: '收费项目',
+                    icon: 'ios-create',
+                    hideInMenu: false
+                },
+                component: () => import('@/views/chargeManagement/chargeItems')
+            },
+            {
+                path: '/chargeManagement/chargeRecords',
+                name: 'chargeRecords',
+                meta: {
+                    title: '收费记录',
+                    icon: 'ios-create',
+                    hideInMenu: false
+                },
+                component: () => import('@/views/chargeManagement/chargeRecords')
+            },
+        ]
+    },
+    {
         path: '/401',
         name: 'error_401',
         meta: {
