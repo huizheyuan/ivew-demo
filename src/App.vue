@@ -16,7 +16,5 @@ export default {
 </script>
 
 <style lang="less">
-.hzy {
-    color: red;
-}
+
 </style>
