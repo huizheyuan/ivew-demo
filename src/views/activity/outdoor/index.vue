@@ -1,6 +1,12 @@
 <template>
     <div>
-        <Table border :height="tableHeight" :columns="columns" :data="data"></Table>
+        <Table 
+            border 
+            :height="tableHeight" 
+            :columns="columns" 
+            :data="data"
+            @on-sort-change="tableSort"
+        ></Table>
         <div class="footerBox">
             <Page 
                 :total="searchHeader.totalPage" 
@@ -72,6 +78,7 @@ export default {
                     title: '创建时间',
                     key: 'createTime',
                     align: 'center',
+                    sortable: true,
                     renderHeader: (h, params) => this.renderHeaderDatePicker(h, params)
                 },
                 {
@@ -104,6 +111,9 @@ export default {
         this.searchData()
     },
     methods: {
+        tableSort (item) {
+            console.log(item.column, item.key, item.order)
+        },
         searchData() {
             let createTime = moment(this.searchHeader.createTime).format('YYYY-MM-DD')
             let createRange = [
